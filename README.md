@@ -10,6 +10,16 @@ This API is supposed to be used in production in the forests in France by the go
 
 <img src="docs/images/wolfy.png">
 
+# Installation
+
+```
+python3 -m venv env
+source env/bin/activate
+pip install -r requirements.txt
+```
+
+Of course you need everything installed to handle [tensorflow-gpu](https://www.tensorflow.org/install/gpu)
+
 # Usage
 
 ```
