@@ -79,7 +79,7 @@ async def process_image(image_path):
 async def find_animals(path):
   #jpg = list(Path(path).rglob("*.[jJ][pP][gG]"))
   #png = list(Path(path).rglob("*.[pP][nN][gG]"))
-  videos = list(Path(path).rglob("*.[aA][vV][iI]")) + list(Path(".").rglob("*.[mM][pP][4]"))
+  videos = list(Path(path).rglob("*.[aA][vV][iI]")) + list(Path(path).rglob("*.[mM][pP][4]"))
   #dir = 'img'
   #if os.path.exists(dir):
   #    shutil.rmtree(dir)
