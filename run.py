@@ -4,6 +4,11 @@ from __future__ import print_function
 
 # Files stuff
 import os
+import sys
+
+# Hack to use tensorflow/models/research/slim utils tools
+sys.path.insert(0, './models/research/slim')
+
 import shutil
 from pathlib import Path
 
@@ -18,9 +23,9 @@ import time
 import cv2
 import asyncio
 from tensorflow.contrib import slim
-from models.research.slim.datasets import dataset_utils, imagenet
-from models.research.slim.nets import vgg
-from models.research.slim.preprocessing import vgg_preprocessing
+from datasets import dataset_utils, imagenet
+from nets import vgg
+from preprocessing import vgg_preprocessing
 
 url = "http://download.tensorflow.org/models/vgg_16_2016_08_28.tar.gz"
 
@@ -28,8 +33,9 @@ checkpoints_dir = '/tmp/checkpoints'
 
 if not tf.gfile.Exists(checkpoints_dir):
     tf.gfile.MakeDirs(checkpoints_dir)
+    dataset_utils.download_and_uncompress_tarball(url, checkpoints_dir)
 
-dataset_utils.download_and_uncompress_tarball(url, checkpoints_dir)
+
 
 async def process_image(image_path):
   image_size = vgg.vgg_16.default_image_size
