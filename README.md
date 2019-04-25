@@ -1,5 +1,7 @@
 # WORK IN PROGRESS
 
+The aim of this project is to make the amazing tools of deep learning more accessible to non technical people.
+
 The goal is to make a generic API which take a path, read and process videos and give as output for each video:
  - For each animal species:
     - Number of frames this species has been detected

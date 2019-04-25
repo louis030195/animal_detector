@@ -5,27 +5,28 @@ from __future__ import print_function
 # Files stuff
 import os
 import sys
+import shutil
+from pathlib import Path
 
 # Hack to use tensorflow/models/research/slim utils tools
 sys.path.insert(0, './models/research/slim')
 
-import shutil
-from pathlib import Path
 
 # Math / ML
 import math
 import numpy as np
 import tensorflow as tf
+from tensorflow.contrib import slim
+from datasets import dataset_utils, imagenet
+from nets import vgg
+from preprocessing import vgg_preprocessing
 
 # Misc
 import argparse
 import time
 import cv2
 import asyncio
-from tensorflow.contrib import slim
-from datasets import dataset_utils, imagenet
-from nets import vgg
-from preprocessing import vgg_preprocessing
+
 
 url = "http://download.tensorflow.org/models/vgg_16_2016_08_28.tar.gz"
 
