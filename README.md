@@ -1,19 +1,11 @@
 # WORK IN PROGRESS
 
-The aim of this project is to make the amazing tools of deep learning more accessible to non technical people.
+The aim of this project is to make an extension of GCP CV tools with many parameters, easy installable and runnable in production as an API
 
-The goal is to make a generic API which take a path, read and process videos and give as output for each video:
- - For each animal species:
-    - Number of frames this species has been detected
-    - At which frame this species has been detected
-    - More infos incoming ... 
+**Output example of processing a video**
 
-**Output example**
+occurences is at which frame the animal is detected
 >'white wolf, Arctic wolf, Canis lupus tundrarum': {'count': 33, 'occurences': [189, 190, 191, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 222, 223, 224, 225, 226, 227]
-
-This API is supposed to be used in production in the forests in France by the government to detect wolves
-
-<img src="docs/images/wolfy.png">
 
 # Installation
 
@@ -23,10 +15,17 @@ source env/bin/activate
 pip install -r requirements.txt
 ```
 
-Of course you need everything installed to handle [tensorflow-gpu](https://www.tensorflow.org/install/gpu)
+If you want to run on GPU, you also need everything installed to handle [CUDA](https://www.tensorflow.org/install/gpu)
 
 # Usage
 
 ```
-python run.py [directory_that_contains_videos]
+python run.py [directory_that_contains_videos_and_photos]
 ```
+
+# Roadmap
+- [] Use Tensorflow serving / Pytorch serving ...
+- [] Easy production setup (Docker ...)
+- [] Option that store results in a database + setup API to query the database
+- [] Web / mobile interface for the option above
+- [] Offer production-ready custom models (pretrained on ImageNet + fine-tuned)
