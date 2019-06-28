@@ -44,11 +44,15 @@ async def process_image(image_path):
   with tf.Graph().as_default():
       # Convert filepath string to string tensor
       #tf_filepath = tf.convert_to_tensor(image_path, dtype=tf.string)
-
-      # Read .JPEG image
+      #tf_filepath = tf.convert_to_tensor(str(image_path), dtype=tf.string)
+ 
+       # Read .JPEG image
       #tf_img_string = tf.read_file(tf_filepath)
       
       image = tf.image.decode_jpeg(tf.image.encode_jpeg(image_path), channels=3)
+      tf_img_string = tf.read_file(str(image_path))
+      image = tf.image.decode_jpeg(tf_img_string)#tf.image.encode_jpeg(tf_img_string), channels=3)
+
       processed_image = vgg_preprocessing.preprocess_image(image, image_size, image_size, is_training=False)
       processed_images  = tf.expand_dims(processed_image, 0)
 
@@ -78,14 +82,15 @@ async def process_image(image_path):
       return animals_found
 
 async def find_animals(path):
-  #jpg = list(Path(path).rglob("*.[jJ][pP][gG]"))
-  #png = list(Path(path).rglob("*.[pP][nN][gG]"))
+  images = list(Path(path).rglob("*.[jJ][pP][gG]")) + list(Path(path).rglob("*.[pP][nN][gG]"))
+
   videos = list(Path(path).rglob("*.[aA][vV][iI]")) + list(Path(path).rglob("*.[mM][pP][4]"))
   #dir = 'img'
   #if os.path.exists(dir):
   #    shutil.rmtree(dir)
   #os.makedirs(dir)
   all_videos = {}
+  all_images = {}
   for video in videos:
     print("Processing", str(video))
     vidcap = cv2.VideoCapture(str(video))
@@ -114,8 +119,24 @@ async def find_animals(path):
       frame_count += 1
     print("Found", count_animal)
     all_videos[video] = count_animal
+  for image in images:
+    print(image)
+    try:
+      result = await process_image(image)
+    except:
+      print('Failed')
+    count_animal = {}
+    for a in result:
+        # If it's the first time we see this species in the dict
+        if a not in count_animal:
+          count_animal[a] = {}
+          count_animal[a]['count'] = 0
+          # Increment the counter of times we saw this species
+        count_animal[a]['count'] = count_animal[a]['count'] + 1
+    print("Found", count_animal)
+    all_images[image] = count_animal
   print(all_videos)
-
+print(all_images)
 parser = argparse.ArgumentParser(description='Animal detector.')
 parser.add_argument('path', type=str,
                    help='path to process videos',
